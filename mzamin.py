@@ -8,16 +8,15 @@ import time
 
 
 
-def scrape_bhorerkagoj(portal_name ,url,driver):
-    
+def scrap_mzamin(portal_name ,url,driver):
     driver.get(url)
     driver.implicitly_wait(5)
 
     news_items = []
 
     try:
-        container = driver.find_element(By.CLASS_NAME, "desktopSectionListMedia")
-        cards = container.find_elements(By.CLASS_NAME, "media")
+        container = driver.find_element(By.CLASS_NAME, "container")
+        cards = container.find_elements(By.CLASS_NAME, "row")
         print(f"Found {len(cards)} news cards in {portal_name}")
     except Exception as e:
         print(f"Failed to find news container: {e}")
@@ -34,7 +33,7 @@ def scrape_bhorerkagoj(portal_name ,url,driver):
 
         # Published time from <p class="desktopTime">
         try:
-            time_el = card.find_element(By.CSS_SELECTOR, "p.desktopTime")
+            time_el = card.find_element(By.TAG_NAME, "p")
             published_time = time_el.text.strip()
         except:
             published_time = "N/A"
@@ -80,5 +79,3 @@ def scrape_bhorerkagoj(portal_name ,url,driver):
             "published_time": published_time
         })
     return news_items
-    # save_news_to_db(news_items)
-

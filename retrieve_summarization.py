@@ -8,7 +8,7 @@ def generate_summarization(news_portal, content):
          messages=[
         {
             "role": "system",
-            "content": ("Summarize the article into a clear and concise paragraph while preserving the full context. "
+            "content": ("Summarize the article into a clear and concise paragraph **3–4 sentences** while preserving the full context. "
             "Ignore all timestamps, author names, editors, publisher info, footers, advertisements, contact details, and publishing dates. "
             "Do not include unrelated information or your own opinions.")
         },

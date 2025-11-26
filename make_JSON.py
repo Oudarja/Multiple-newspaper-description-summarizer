@@ -25,7 +25,7 @@ for news in all_news:
         "saved_at": str(news.saved_at)
     })
 
-with open("latest_news.json", "w", encoding="utf-8") as f:
+with open("latest_news_big.json", "w", encoding="utf-8") as f:
     json.dump(news_list, f, ensure_ascii=False, indent=2)
 
 print("Data saved to latest_news.json")
