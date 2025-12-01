@@ -7,7 +7,10 @@ from bhorer_kagoj import scrape_bhorerkagoj
 from ittefaq import scrape_ittefaq
 from samakal import scrape_samakal
 from prothom_alo import scrape_prothomalo
+from cnn_scraper import scrape_CNN
+from bbc_scraper import scrape_BBC
 from mzamin import scrap_mzamin
+from reuters import scrape_Reuters
 from  save_news import save_news_to_db
 from database import SessionLocal
 from model import LatestNews
@@ -17,8 +20,8 @@ def scrap_and_summarize():
     portal_name1 = "Dainik Amader Shomoy"
     url1 = "https://www.dainikamadershomoy.com/latest/all"
     
-    portal_name2="Bhorer Kagoj"
-    url2="https://www.bhorerkagoj.com/latest"
+    # portal_name2="Bhorer Kagoj"
+    # url2="https://www.bhorerkagoj.com/latest"
 
     portal_name3="Ittefaq"
     url3="https://www.ittefaq.com.bd/latest-news"
@@ -31,6 +34,22 @@ def scrap_and_summarize():
 
     portal_name6="mzamin"
     url6="https://mzamin.com/category.php?cat=1#gsc.tab=0"
+
+
+    # portal_name7="CNN"
+
+    # url7="https://edition.cnn.com/"
+    portal_name8="BBC"
+
+    url8="https://www.bbc.com/"
+    
+    # portal_name9="Reuters"
+
+    # url9="https://www.reuters.com/"
+
+
+
+
 
     options = Options()
     options.add_argument("--disable-notifications")
@@ -47,13 +66,13 @@ def scrap_and_summarize():
     except Exception as e:
         print(f"Error found as {e}")
 
-    try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-        list_=scrape_bhorerkagoj(portal_name2,url2,driver)
-        all_news_list.append(list_)
-        driver.quit()
-    except Exception as e:
-        print(f"Error found as {e}")
+    # try:
+    #     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    #     list_=scrape_bhorerkagoj(portal_name2,url2,driver)
+    #     all_news_list.append(list_)
+    #     driver.quit()
+    # except Exception as e:
+    #     print(f"Error found as {e}")
     
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
@@ -100,8 +119,36 @@ def scrap_and_summarize():
 
 
     
+    # scrapping don't work for CNN and Reuters only BBC does work
 
+
+    # try:
+    #     driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    #     list_=scrape_CNN(portal_name7,url7,driver)
+    #     all_news_list.append(list_)
+    #     driver.quit()
+    # except Exception as e:
+    #     print(f"Error found as {e}")
     
+    try:
+        driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        list_=scrape_BBC(portal_name8,url8,driver)
+        all_news_list.append(list_)
+        driver.quit()
+    except Exception as e:
+        print(f"Error found as {e}")
+
+
+
+    # try:
+    #     driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    #     list_=scrape_Reuters(portal_name9,url9,driver)
+    #     all_news_list.append(list_)
+    #     driver.quit()
+    # except Exception as e:
+    #     print(f"Error found as {e}")
+    
+
     db = SessionLocal()
     # Get the last inserted row based on id (primary key)
     last_row = db.query(LatestNews).order_by(LatestNews.id.desc()).first()

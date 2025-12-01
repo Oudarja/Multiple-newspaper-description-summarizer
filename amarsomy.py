@@ -76,6 +76,5 @@ def scrape_amadershomoy(portal_name ,url,driver):
         })
     
     return news_items
-    # save_news_to_db(news_items)
 
 
